@@ -21,4 +21,5 @@ Route::get('/login', 'UsersController@loginShow')->name('login');
 Route::post('/login', 'UsersController@loginAction')->name('loginAction');
 Route::get('/logout', 'UsersController@logout')->name('logout');
 Route::get('/register', 'UsersController@registerShow')->name('register');
+Route::post('/register', 'UsersController@registerAction')->name('registerAction');
 Route::get('/home', 'HomeController@index')->name('home');
