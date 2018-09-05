@@ -21,10 +21,8 @@ class UsersController extends Controller
     }
 
     public function loginAction(Request $request) {
-        //dd($request);
-
-        if(auth()->once(request(['email', 'password']))) {
-            auth()->attempt(request(['email', 'password']));
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {        
             return redirect()->route('home');
         } else {
             return back()->withErrors([
@@ -36,24 +34,13 @@ class UsersController extends Controller
     }
 
     public function registerShow() {
-
-        $json = Storage::disk('local')->get('countries.json');
-        $countries = json_decode($json, true);
-        
-        $countryValidateArray = [];
-        foreach($countries as $country) {
-            $countryValidateArray[] = $country['name'];
-        }
-        
-        //dd($countryValidateArray);
-
+        $countries = $this->returnCountreis();        
+       
         return view('users.register', compact('countries'));
     }
 
     public function registerAction(Request $request) {
-
-        $json = Storage::disk('local')->get('countries.json');
-        $countries = json_decode($json, true);
+        $countries = $this->returnCountreis();
         
         $countryValidateArray = [];
         foreach($countries as $country) {
@@ -86,8 +73,15 @@ class UsersController extends Controller
     }
 
     public function logout() {
-        auth()->logout();
+        Auth::logout();
 
         return redirect()->route('login');
+    }
+
+    private function returnCountreis() {
+        $json = Storage::disk('local')->get('countries.json');
+        $countries = json_decode($json, true);
+
+        return $countries;
     }
 }

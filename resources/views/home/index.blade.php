@@ -1,1 +1,4 @@
-<h1>Home</h1>
+@include('partials.header')
+<h2>Home</h2>
+
+@include('partials.footer')
